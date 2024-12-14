@@ -1,25 +1,22 @@
 package main
 
 import (
-	"github.com/DenysNykoriak/go-api/initialization"
+	app_auth "github.com/DenysNykoriak/go-api/app/auth"
+	"github.com/DenysNykoriak/go-api/core"
 	"github.com/gin-gonic/gin"
 )
 
 func init() {
-	initialization.LoadEnv()
-	initialization.ConnectPostgres()
+	core.LoadEnv()
+	core.ConnectPostgres()
 
-	initialization.SyncPostgres()
+	core.SyncPostgres()
 }
 
 func main() {
 	r := gin.Default()
 
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Hello, World!",
-		})
-	})
+	app_auth.InitializeRoutes(r)
 
 	r.Run()
 
